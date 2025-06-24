@@ -9,11 +9,7 @@ namespace Alura.Adopet.Console.Comandos
         private Dictionary<string, DocComando> docs;
         public Help()
         {
-            docs = Assembly.GetExecutingAssembly()
-                .GetTypes()
-                .Where(t => t.GetCustomAttributes<DocComando>().Any())
-                .Select (t => t.GetCustomAttribute<DocComando>()!)
-                .ToDictionary(d => d.Instrucao, d => d);
+            docs = ConfiguraDoc();
         }
 
         public Task ExecutarAsync(string[] args)
@@ -46,6 +42,15 @@ namespace Alura.Adopet.Console.Comandos
                     System.Console.WriteLine(comando.Documentacao);
                 }
             }
+        }
+
+        private Dictionary<string, DocComando> ConfiguraDoc()
+        {
+            return Assembly.GetExecutingAssembly()
+                .GetTypes()
+                .Where(t => t.GetCustomAttributes<DocComando>().Any())
+                .Select(t => t.GetCustomAttribute<DocComando>()!)
+                .ToDictionary(d => d.Instrucao, d => d);
         }
     }
 }
