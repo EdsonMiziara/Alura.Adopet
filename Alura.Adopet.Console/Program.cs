@@ -1,24 +1,31 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using System.Net.Http.Headers;
-using System.Net.Http.Json;
-using Alura.Adopet.Console.Comandos;
-using Alura.Adopet.Console.Modelos;
+﻿using Alura.Adopet.Console.Comandos;
+using Alura.Adopet.Console.Servicos;
+using Alura.Adopet.Console.Util;
 
-ComandosDoSistema comandos = new();
+HttpClientPet clientPet = new(new AdopetAPIClientFactory().CreateClient("Adopet"));
+var leitorDeArquivo = new LeitorDeArquivo(caminhoDoArquivoASerLido: args[1]);    
+Dictionary<string, IComando> comandosDoSistema = new()
+{
+    {"help",new Help() },
+    {"import",new Import(clientPet, leitorDeArquivo)},
+    {"list",new List(clientPet) },
+    {"show",new Show(leitorDeArquivo) },
+};
+
 Console.ForegroundColor = ConsoleColor.Green;
 try
-{
+{    
     string comando = args[0].Trim();
-    var cmd = comandos[comando];
-    if (cmd is not null )
+    if (comandosDoSistema.ContainsKey(comando))
     {
+        IComando? cmd = comandosDoSistema[comando];
         await cmd.ExecutarAsync(args);
     }
     else
     {
-        Console.WriteLine($"Comando '{comando}' não encontrado. Use 'adopet help' para ver os comandos disponíveis.");
-    }
-
+        Console.WriteLine("Comando inválido!");
+    } 
+        
 }
 catch (Exception ex)
 {

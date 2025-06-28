@@ -1,36 +1,30 @@
 ﻿using Alura.Adopet.Console.Modelos;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Alura.Adopet.Console.Util;
-
-public static class PetAPartirDoCsv
+namespace Alura.Adopet.Console.Util
 {
-    public static Pet ConverteDoTexto(this string linha)
+    public static class PetAPartirDoCsv
     {
-        if (string.IsNullOrWhiteSpace(linha))
+        public static Pet ConverteDoTexto(this string linha)
         {
-            throw new ArgumentException("Linha não pode ser nula ou vazia", nameof(linha));
-        }
-        string[]? propriedades = linha.Split(';');
-        if (propriedades.Length < 3)
-        {
-            throw new ArgumentException("Linha deve conter pelo menos 3 propriedades separadas por ponto e vírgula", nameof(linha));
-        }
-        if (string.IsNullOrEmpty(propriedades[0] ) || string.IsNullOrEmpty(propriedades[1] ) || string.IsNullOrEmpty(propriedades[2]))
-        {
-            throw new ArgumentException("As Propriedades não podem ser nulas ou vazia", nameof(linha));
-        }
-        try
-        {
-            Guid id = Guid.Parse(propriedades[0]);
-            string nome = propriedades[1];
-            TipoPet tipo = int.Parse(propriedades[2]) == 1 ? TipoPet.Gato : TipoPet.Cachorro;
-            return new Pet(id, nome, tipo);
-        }
-        catch (FormatException)
-        {
-            throw new ArgumentException("O ID do Pet deve ser um GUID válido", nameof(linha));
-        }
+            string[]? propriedades = linha?.Split(';') ?? throw new ArgumentNullException("Texto não pode ser nulo!");
 
+            if (string.IsNullOrEmpty(linha)) throw new ArgumentException("Texto não pode ser vazio");
+
+            bool guidValido = Guid.TryParse(propriedades[0], out Guid petId);
+            if (!guidValido) throw new ArgumentException("Identificador do pet inválido!");
+
+            bool tipoValido = int.TryParse(propriedades[2], out int tipoPet);
+            if (!tipoValido) throw new ArgumentException("Tipo do pet inválido!");
+
+            int[] enums = Array.ConvertAll(Enum.GetValues<TipoPet>(), value => (int)value);
+            if (!enums.Contains(tipoPet)) throw new ArgumentException("Tipo do pet inválido!");
+
+            return new Pet(petId, propriedades[1], (TipoPet)tipoPet);
+        }
     }
-
 }
