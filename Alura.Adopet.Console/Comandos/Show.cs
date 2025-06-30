@@ -1,4 +1,5 @@
 ﻿using Alura.Adopet.Console.Util;
+using FluentResults;
 
 namespace Alura.Adopet.Console.Comandos;
 
@@ -13,10 +14,18 @@ public class Show:IComando
         this.leitor = leitor;
     }
 
-    public Task ExecutarAsync(string[] args)
+    public Task<Result> ExecutarAsync(string[] args)
     {
-        this.ExibeConteudoArquivo(); 
-        return Task.CompletedTask;
+        try
+        {
+            this.ExibeConteudoArquivo();
+            return Task.FromResult(Result.Ok());
+        }
+        catch (Exception ex)
+        {
+            return Task.FromResult(Result.Fail(new Error("Falha ao exibir o conteúdo do arquivo").CausedBy(ex)));
+        }
+
     }
 
     private void ExibeConteudoArquivo()
