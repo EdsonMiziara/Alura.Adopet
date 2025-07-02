@@ -17,9 +17,8 @@ public class Show:IComando
     public Task<Result> ExecutarAsync(string[] args)
     {
         try
-        {
-            this.ExibeConteudoArquivo();
-            return Task.FromResult(Result.Ok());
+        {            
+            return this.ExibeConteudoArquivo();
         }
         catch (Exception ex)
         {
@@ -28,14 +27,9 @@ public class Show:IComando
 
     }
 
-    private void ExibeConteudoArquivo()
+    private Task<Result> ExibeConteudoArquivo()
     {
         var listaDepets = leitor.RealizaLeitura();
-        foreach (var pet in listaDepets)
-        {
-            System.Console.WriteLine(pet);
-        }
-
-
+        return Task.FromResult(Result.Ok().WithSuccess(new SuccessWithPets(listaDepets, "Exibição do arquivo realizada com sucesso.")));
     }
 }

@@ -7,7 +7,7 @@ namespace Alura.Adopet.Console.Comandos;
 [DocComandoAttribute(instrucao: "help",
  documentacao: "adopet help comando que exibe informações da ajuda. \n" +
     "adopet help <NOME_COMANDO> para acessar a ajuda de um comando específico.")]
-public class Help:IComando
+public class Help : IComando
 {
     private Dictionary<string, DocComandoAttribute> docs;
 
@@ -20,8 +20,8 @@ public class Help:IComando
     {
         try
         {
-            this.ExibeDocumentacao(parametros: args);
-            return Task.FromResult(Result.Ok());
+            return Task.FromResult(Result.Ok()
+                .WithSuccess(new SuccessWithDocs(this.GerarDocumentacao(parametros: args))));
         }
         catch (Exception ex)
         {
@@ -29,18 +29,15 @@ public class Help:IComando
         }
 
     }
-
-    private void ExibeDocumentacao(string[] parametros)
+    private IEnumerable<string> GerarDocumentacao(string[] parametros)
     {
+        List<string> resultado = new List<string>();
         // se não passou mais nenhum argumento mostra help de todos os comandos
         if (parametros.Length == 1)
         {
-            System.Console.WriteLine($"Adopet (1.0) - Aplicativo de linha de comando (CLI).");
-            System.Console.WriteLine($"Realiza a importação em lote de um arquivos de pets.");
-            System.Console.WriteLine($"Comando possíveis: ");
             foreach (var doc in docs.Values)
             {
-                System.Console.WriteLine(doc.Documentacao);
+                resultado.Add(doc.Documentacao);
             }
         }
         // exibe o help daquele comando específico
@@ -50,9 +47,16 @@ public class Help:IComando
             if (docs.ContainsKey(comandoASerExibido))
             {
                 var comando = docs[comandoASerExibido];
-                System.Console.WriteLine(comando.Documentacao);
+                resultado.Add(comando.Documentacao);
+            }
+            else
+            {
+                resultado.Add("Comando não encontrado!");
             }
 
         }
+        return resultado;
     }
+
+   
 }

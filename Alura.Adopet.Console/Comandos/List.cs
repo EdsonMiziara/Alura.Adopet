@@ -25,12 +25,7 @@ public class List: IComando
         try
         {
             IEnumerable<Pet>? pets = await clientPet.ListPetsAsync();
-            System.Console.WriteLine("----- Lista de Pets importados no sistema -----");
-            foreach (var pet in pets)
-            {
-                System.Console.WriteLine(pet);
-            }
-            return Result.Ok();
+            return Result.Ok().WithSuccess(new SuccessWithPets(pets, "Listagem de Pet's realizada com sucesso!"));
         }
         catch (Exception ex)
         {
