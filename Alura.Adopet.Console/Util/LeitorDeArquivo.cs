@@ -19,6 +19,11 @@ public class LeitorDeArquivo
     public virtual List<Pet> RealizaLeitura()
     {
         List<Pet> listaDePet = new List<Pet>();
+        if (caminhoDoArquivoASerLido is null ||
+            caminhoDoArquivoASerLido == string.Empty)
+        {
+            return listaDePet;
+        }
         using (StreamReader sr = new StreamReader(caminhoDoArquivoASerLido))
         {
             while (!sr.EndOfStream)

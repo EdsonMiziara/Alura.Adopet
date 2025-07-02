@@ -26,7 +26,7 @@ public class ImportTeste
 
         //Act
 
-        await import.ExecutarAsync(args);
+        await import.ExecutarAsync();
 
         //Assert
 
@@ -53,7 +53,7 @@ public class ImportTeste
 
         //Act
 
-        var resultado = await import.ExecutarAsync(args);
+        var resultado = await import.ExecutarAsync();
 
         //Assert
         Assert.True(resultado.IsFailed);
@@ -65,12 +65,9 @@ public class ImportTeste
     public async void QuandoPetEstiverNoArquivoDeveSerImportado()
     {
         //Arrange
-        var listaDePet = new List<Pet>();
-        var pet = new Pet(
-            id: new Guid("456b24f4 - 19e2 - 4423 - 845d - 4a80e8854a41"),
-            nome: "Lima",
-            tipo: TipoPet.Cachorro
-        );
+        List<Pet>? listaDePet = new();
+        var pet = new Pet(new Guid("456b24f4-19e2-4423-845d-4a80e8854a99"),
+        "Lima", TipoPet.Cachorro);
         listaDePet.Add(pet);
 
         var leitorDeArquivo = LeitorDeArquivosMoq.CriaMoq(listaDePet);
@@ -80,7 +77,7 @@ public class ImportTeste
         var import = new Import(httpClientPet.Object, leitorDeArquivo.Object);
         string[] args = {"import", "lista.csv"}; 
         //Act
-        var resultado = await import.ExecutarAsync(args);
+        var resultado = await import.ExecutarAsync();
 
 
         //Assert

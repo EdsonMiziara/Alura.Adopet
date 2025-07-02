@@ -28,7 +28,7 @@ public class ImportIntegrationTest
 
         //Act
 
-        await import.ExecutarAsync(args);
+        await import.ExecutarAsync();
 
         //Assert
         var listapet = await clientPet.ListPetsAsync();

@@ -37,7 +37,7 @@ public class LeitorDeArquivoTest : IDisposable
         //Act
         var listaDePets = new LeitorDeArquivo("").RealizaLeitura();
         //Assert
-        Assert.Null(listaDePets);
+        Assert.Empty(listaDePets);
     }
 
     [Fact]
@@ -47,24 +47,7 @@ public class LeitorDeArquivoTest : IDisposable
         //Act
         var listaDePets = new LeitorDeArquivo(null).RealizaLeitura();
         //Assert
-        Assert.Null(listaDePets);
-    }
-    [Fact]
-    public async Task QuandoArquivoNaoExistenteDeveGerarException()
-    {
-        //Arrange
-        List<Pet> listaDePet = new();
-        var leitor = LeitorDeArquivosMoq.CriaMoq(listaDePet);
-        leitor.Setup(_ => _.RealizaLeitura()).Throws<FileNotFoundException>();
-
-        var httpClientPet = HttpClientPetMoq.CriaMoq();
-
-        string[] args = { "import", "lista.csv" };
-
-        var import = new Import(httpClientPet.Object, leitor.Object);
-
-        //Act+Assert
-        await Assert.ThrowsAnyAsync<Exception>(() => import.ExecutarAsync(args));
+        Assert.Empty(listaDePets);
     }
 
     public void Dispose()

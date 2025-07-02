@@ -15,7 +15,7 @@ public class List: IComando
     {
         this.clientPet = clientPet;
     }
-    public Task<Result> ExecutarAsync(string[] args)
+    public Task<Result> ExecutarAsync()
     {
         return this.ListaDadosPetsDaAPIAsync();
     }

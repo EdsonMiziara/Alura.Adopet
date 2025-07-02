@@ -14,7 +14,7 @@ public class Show:IComando
         this.leitor = leitor;
     }
 
-    public Task<Result> ExecutarAsync(string[] args)
+    public Task<Result> ExecutarAsync()
     {
         try
         {            
