@@ -6,7 +6,7 @@ using System.Net.Sockets;
 
 namespace Alura.Adopet.Testes.Servicos;
 
-public class HttpClientPetTest
+public class PetServiceTeste
 {
     [Fact]
     public async Task ListaPetsDeveRetornarUmaListaNaoVazia()
@@ -67,7 +67,7 @@ public class HttpClientPetTest
 
         var httpClient = new Mock<HttpClient>(MockBehavior.Default, handlerMock.Object);
         httpClient.Object.BaseAddress = new Uri("http://localhost:5057");
-        var clientePet = new HttpClientPet(httpClient.Object);
+        var clientePet = new PetService(httpClient.Object);
 
         //Act
         var lista = await clientePet.ListAsync();
@@ -93,7 +93,7 @@ public class HttpClientPetTest
         var httpClient = new Mock<HttpClient>(MockBehavior.Default, handlerMock.Object);
         httpClient.Object.BaseAddress = new Uri("http://localhost:5057");
 
-        var clientePet = new HttpClientPet(httpClient.Object);
+        var clientePet = new PetService(httpClient.Object);
 
         //Act+Assert
         await Assert.ThrowsAnyAsync<Exception>(() => clientePet.ListAsync());
