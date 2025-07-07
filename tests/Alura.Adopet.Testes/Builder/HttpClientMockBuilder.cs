@@ -4,9 +4,9 @@ using System.Net.Http;
 
 namespace Alura.Adopet.Testes.Builder;
 
-public class HttpClientMoqBuilder
+public class HttpClientMockBuilder
 {
-    public static Mock<HttpClient> CriarMoq(string content)
+    public static Mock<HttpClient> GetMock(string content)
     {
         var handlermock = new Mock<HttpMessageHandler>();
         var response = new HttpResponseMessage

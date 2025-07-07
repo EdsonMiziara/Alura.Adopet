@@ -9,8 +9,8 @@ public class ClienteServiceTest
     public async Task DadaRespostaComVariosClientesDeveRetornarListaNaoVazia()
     {
         //Arrange
-        var mock = HttpClientMoqBuilder
-            .CriarMoq(@"
+        var mock = HttpClientMockBuilder
+            .GetMock(@"
                 [
                     {
                         ""id"": ""ed48920c-5adb-4684-9b8f-ba8a94775a11"",

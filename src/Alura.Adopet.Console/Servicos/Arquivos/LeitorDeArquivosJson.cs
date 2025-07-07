@@ -14,8 +14,9 @@ public class LeitorDeArquivosJson<T>: ILeitorDeArquivos<T>
     public IEnumerable<T> RealizaLeitura()
     {
         using var stream = new FileStream(caminhoArquivo, FileMode.Open, FileAccess.Read);
-        return JsonSerializer.Deserialize<IEnumerable<T>>(stream) ??
+        var jsonOptions = new JsonSerializerOptions();
+        jsonOptions.PropertyNameCaseInsensitive = true;
+        return JsonSerializer.Deserialize<IEnumerable<T>>(stream, jsonOptions) ??
                throw new InvalidOperationException("Não foi possível desserializar o arquivo JSON.");
     }
-
 }
