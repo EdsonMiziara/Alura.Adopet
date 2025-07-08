@@ -4,6 +4,7 @@ using Alura.Adopet.Console.Results;
 using FluentResults;
 using Alura.Adopet.Console.Servicos.Abstracoes;
 using Alura.Adopet.Console.Modelos;
+using Alura.Adopet.Console.Comandos.Abstracoes;
 
 namespace Alura.Adopet.Console.Comandos
 {

@@ -3,6 +3,7 @@ using Alura.Adopet.Console.Util;
 using Alura.Adopet.Console.Results;
 using FluentResults;
 using System.Reflection;
+using Alura.Adopet.Console.Comandos.Abstracoes;
 
 namespace Alura.Adopet.Console.Comandos
 {

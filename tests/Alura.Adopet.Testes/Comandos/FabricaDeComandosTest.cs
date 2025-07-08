@@ -1,4 +1,5 @@
 ﻿using Alura.Adopet.Console.Comandos;
+using Alura.Adopet.Console.Comandos.ComandoFactory;
 
 namespace Alura.Adopet.Testes.Comandos;
 
